@@ -23,7 +23,7 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 # any routes that is wrapped in login_required decorator will reroute to the login route if not logged in.
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 # mailer config
@@ -36,4 +36,14 @@ mail = Mail(app)
 
 # print(os.environ.get('EMAIL_PASS'), "this is how we access env variables")
 
-from flaskblog import routes
+# import the blueprint objects
+from flaskblog.users.routes import users
+from flaskblog.posts.routes import posts
+from flaskblog.main.routes import main
+
+# register the blueprints with our app. 
+# it will basically just register all the functionality that was bound to the blueprint back to the app.
+# this also prefixes the endpoints defined in the routes with the name of the blueprint so we need to change it in URL_For
+app.register_blueprint(users)
+app.register_blueprint(posts)
+app.register_blueprint(main)
