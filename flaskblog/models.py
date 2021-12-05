@@ -1,6 +1,7 @@
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flaskblog import db, login_manager, app
+from flaskblog import db, login_manager
+from flask import current_app
 # we need to inherit this class inside our model which is required for the flask login extension.
 from flask_login import UserMixin
 
@@ -28,14 +29,14 @@ class User(db.Model, UserMixin):
     # 
     def get_reset_token(self, expires_sec=1800):
         # create serializer with app secret key
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         # return json token using serializer by decoding the user id
         return s.dumps({'user_id': self.id}).decode('utf-8')
 
     # because not using self
     @staticmethod
     def verify_reset_token(token):
-        s = Serializer(app.config['SECRET_KEY'])
+        s = Serializer(current_app.config['SECRET_KEY'])
         # try and catch block in case the token expired or there was an error.
         # We decode the serialized JSON object and access the user_id
         try:

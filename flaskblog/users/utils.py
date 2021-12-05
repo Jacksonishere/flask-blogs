@@ -13,7 +13,7 @@ def save_picture(form_picture):
     # append new hashed name with extension
     picture_fn = random_hex + f_ext
     # join the path with the file name
-    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn)
 
     # resize and scales down the image using package callled pillow
     output_size = (125, 125)
