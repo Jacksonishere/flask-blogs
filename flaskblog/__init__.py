@@ -38,6 +38,7 @@ def create_app(config_class=Config):
     from flaskblog.users.routes import users
     from flaskblog.posts.routes import posts
     from flaskblog.main.routes import main
+    from flaskblog.errors.handlers import errors
 
     # register the blueprints with our app. 
     # it will basically just register all the functionality that was bound to the blueprint back to the app.
@@ -45,6 +46,8 @@ def create_app(config_class=Config):
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
+    app.register_blueprint(errors)
+
 
     # return the instance of app
     return app
